@@ -209,7 +209,12 @@ nav ul li a{
     background: coral; 
     padding: 1em 2em;
     color: white;
-    border: 0
+    border: 0;
+    border-radius: 10%;
+    font-size: 0.9em;
+    position:fixed;
+    top:75%;
+    left:90%;
 }
 #feedback-btn:hover{
     background: #333;
@@ -240,12 +245,15 @@ nav ul li a{
 .modal-footer{
     text-align: center;
 }
-#feedbackNext,#feedbackSubmit{
+#feedbackNext,#feedbackSubmity,#feedbackSubmitn,#feedbackSubmitm{
     background: rgb(53, 223, 53);
     border-radius: 20%; 
     padding: 1em;
     color: white;
     border: 0
+}
+#feedbackNext:hover,#feedbackSubmity:hover,#feedbackSubmitn:hover,#feedbackSubmitm:hover{
+    cursor: pointer;
 }
 .modal-content{
     background-color: #f4f4f4;
@@ -272,4 +280,11 @@ nav ul li a{
     background: rgb(219 219 219);
     box-sizing: border-box;
     margin: 2px
+}
+#feedback1,#feedback2,#feedback3,#feedback4{
+    display:none;
+}
+textarea{
+    max-width: 100%;
+    box-sizing: border-box;
 }
