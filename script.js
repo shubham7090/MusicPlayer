@@ -1,3 +1,6 @@
+window.addEventListener('load',function(){
+    
+})
 console.log("Welcome to Music Player");
 
 
@@ -109,4 +112,121 @@ document.getElementById('previous').addEventListener('click', ()=>{
     audioElement.play();
     masterPlay.classList.remove('fa-play-circle');
     masterPlay.classList.add('fa-pause-circle');
+})
+
+// ########################### MODAL ############################
+
+let modal=document.querySelector('.feedback');
+let feedbackBtn=document.querySelector('#feedback-btn');
+let closeBtn=document.getElementById("closeBtn");
+let feedbackNext=document.getElementById('feedbackNext');
+let feedbackSubmit;
+feedbackBtn.addEventListener('click',openFeedback);
+closeBtn.addEventListener('click',closeFeedBack);
+function openFeedback(){
+    modal.style.display='block';
+//     document.querySelector(".modal-body").innerHTML=`<form action="" class="feedbackForm">
+//     <div class="option-back"><input type="radio" name="how" checked="checked" value=2> Loved IT!!</div>
+//     <div class="option-back"><input type="radio" name="how" value=3> Hated IT!!</div>
+//     <div class="option-back"><input type="radio" name="how" value=4> Not Sure!!</div>
+// </form>`;
+
+//     document.querySelector(".modal-footer").innerHTML=`<button id="feedbackNext"><h3>Next</h3></button>`;
+//     console.log(feedbackNext);
+//     feedbackNext=document.getElementById('feedbackNext');
+}
+function closeFeedBack(){
+    modal.style.display='none';
+}
+window.addEventListener('click',function(e){
+    if(e.target==modal){closeFeedBack();}
+});
+feedbackNext.addEventListener('click',function(){
+    let val=document.getElementsByName('how');
+    val.forEach(function(i){
+        if(i.checked)loadFeedbackPage(i.value);
+    })
+    
+})
+function loadFeedbackPage(page){
+    let orgform=document.querySelector(".feedbackForm");
+    let form=document.createElement('form');
+    if(page==2||page==3){ // loved
+        
+        let div=document.createElement('div');
+        div.classList.add('option-back');
+        let chkbox=document.createElement('input');
+        chkbox.setAttribute('type','checkbox');
+        chkbox.setAttribute('name',"whylove");
+        chkbox.setAttribute('value',1);
+        div.appendChild(chkbox);
+        div.appendChild(document.createTextNode("Music Quality"));
+        form.appendChild(div);
+        
+        div=document.createElement('div');
+        div.classList.add('option-back');
+        chkbox=document.createElement('input');
+        chkbox.setAttribute('type','checkbox');
+        chkbox.setAttribute('name',"whylove");
+        chkbox.setAttribute('value',2);
+        div.appendChild(chkbox);
+        div.appendChild(document.createTextNode("Music Variety"));
+        form.appendChild(div);
+
+        div=document.createElement('div');
+        div.classList.add('option-back');
+        chkbox=document.createElement('input');
+        chkbox.setAttribute('type','checkbox');
+        chkbox.setAttribute('name',"whylove");
+        chkbox.setAttribute('value',3);
+        div.appendChild(chkbox);
+        div.appendChild(document.createTextNode("User Interface"));
+        form.appendChild(div);
+
+        div=document.createElement('div');
+        div.classList.add('option-back');
+        chkbox=document.createElement('input');
+        chkbox.setAttribute('type','checkbox');
+        chkbox.setAttribute('name',"whylove");
+        chkbox.setAttribute('value',4);
+        div.appendChild(chkbox);
+        div.appendChild(document.createTextNode("Accessbility"));
+        form.appendChild(div);
+
+        div=document.createElement('div');
+        div.classList.add('option-back');
+        chkbox=document.createElement('input');
+        chkbox.setAttribute('type','checkbox');
+        chkbox.setAttribute('name',"whylove");
+        chkbox.setAttribute('value',5);
+        div.appendChild(chkbox);
+        div.appendChild(document.createTextNode("Speed"));
+        form.appendChild(div);
+        
+        
+    }else if(page ==4){ // not sure
+        let div=document.createElement('div');
+        div.classList.add('option-back');
+        div.innerHTML=`<h4>Your input is valuable to us.</h4>`;
+        div.style.boxSizing='border-box';
+
+        let txtarea=document.createElement('textarea');
+        txtarea.setAttribute('placeholder','Tell us your Feedback');
+        txtarea.setAttribute('rows',10);
+        txtarea.setAttribute('cols',150);
+        txtarea.style.boxSizing='border-box';
+        txtarea.style.maxWidth='100%';
+        
+        div.appendChild(txtarea);
+        form.appendChild(div);
+    }
+
+    document.querySelector(".modal-body").removeChild(orgform);
+    form.classList.add("feedbackForm");
+    document.querySelector(".modal-body").appendChild(form);
+    document.querySelector('.modal-footer').innerHTML='<input type="submit" id="feedbackSubmit">';
+    feedbackSubmit=document.querySelector("#feedbackSubmit");
+}
+feedbackSubmit.addEventListener('click',()=>{
+    console.log("Yeah!! ");
 })
