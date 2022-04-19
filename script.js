@@ -115,15 +115,23 @@ document.getElementById('previous').addEventListener('click', ()=>{
 })
 
 // ########################### MODAL ############################
-
+let timeoutVal=2;//minutes
+let userFeedback={
+    name:"",
+    email:"",
+    like:"",
+    val:"",
+    content:""
+};
+window.onload=setTimeout(openFeedback,timeoutVal*60*1000);
 let modal=document.querySelector('.feedback');
 let feedbackBtn=document.querySelector('#feedback-btn');
 let closeBtn=document.querySelectorAll("#closeBtn");
 console.log(closeBtn);
 let feedbackNext=document.getElementById('feedbackNext');
-let feedbackSubmity=document.getElementById('submity');
-let feedbackSubmitn=document.getElementById('submitn');
-let feedbackSubmitm=document.getElementById('submitm');
+let feedbackSubmity=document.getElementById('feedbackSubmity');
+let feedbackSubmitn=document.getElementById('feedbackSubmitn');
+let feedbackSubmitm=document.getElementById('feedbackSubmitm');
 feedbackBtn.addEventListener('click',openFeedback);
 closeBtn.forEach(element => {
     element.addEventListener('click',closeFeedBack);
@@ -154,15 +162,99 @@ function loadFeedbackPage(page){
     if(page==2){ // loved
         document.getElementById('feedback1').style.display="none";
         document.getElementById('feedback2').style.display='block';
-
+        document.getElementById('feedback3').style.display="none";
+        document.getElementById('feedback4').style.display='none';
         
         
     }else if(page==3){
         document.getElementById('feedback1').style.display="none";
+        document.getElementById('feedback2').style.display="none";
         document.getElementById('feedback3').style.display='block';
+        document.getElementById('feedback4').style.display='none';
     }
     else if(page ==4){ // not sure
         document.getElementById('feedback1').style.display="none";
+        document.getElementById('feedback3').style.display="none";
+        document.getElementById('feedback2').style.display="none";
         document.getElementById('feedback4').style.display='block';
     }
 }
+
+feedbackSubmity.addEventListener("click",function(){
+    console.log("Yes button hit");
+    userFeedback.like="yes";
+    let val=document.getElementsByName('whylove');
+    val.forEach(function(i){
+        if(i.checked){
+            switch(i.value){
+                case '1':
+                    userFeedback.val+="Music Quality, ";
+                    break;
+                case '2':
+                    userFeedback.val+="Music Variety, ";
+                    break;
+                case '3':
+                    userFeedback.val+="User Interface, ";
+                    break;
+                case '4':
+                    userFeedback.val+="Accessibility, ";
+                    break;
+                case '5':
+                    userFeedback.val+="Speed, ";
+                    break;            
+            }
+        }
+    })
+    loadFeedbackPage(4)
+});
+feedbackSubmitn.addEventListener("click",function(){
+    console.log("No button hit");
+    userFeedback.like="no";
+    userFeedback.like="yes";
+    let val=document.getElementsByName('whyhate');
+    val.forEach(function(i){
+        if(i.checked){
+            switch(i.value){
+                case '1':
+                    userFeedback.val+="Music Quality, ";
+                    break;
+                case '2':
+                    userFeedback.val+="Music Variety, ";
+                    break;
+                case '3':
+                    userFeedback.val+="User Interface, ";
+                    break;
+                case '4':
+                    userFeedback.val+="Accessibility, ";
+                    break;
+                case '5':
+                    userFeedback.val+="Speed, ";
+                    break;            
+            }
+        }
+    })
+    loadFeedbackPage(4)
+});
+feedbackSubmitm.addEventListener("click",function(){
+
+    closeFeedBack();
+    console.log(document.getElementsByName("name"));
+    userFeedback.name=document.getElementsByName("name")[0].value;
+    userFeedback.email=document.getElementsByName("email")[0].value;
+    userFeedback.content=document.getElementsByName("content")[0].value;
+    console.log(userFeedback);
+    fetch("http://localhost:3000", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify(userFeedback),
+    }).then(function(){
+        console.log("request sent");
+    }).catch(function(err){
+        console.log("Error in request");
+        console.log(err);
+    });
+
+});

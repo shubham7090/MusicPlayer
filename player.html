@@ -13,6 +13,7 @@
             <li class="brand"><img src="logo.png" alt="Spotify"> Music Player</li>
             <li><a href="index.html">Home</a></li>
             <li><a href="player.html"> Player</a></li>
+            <li><a href="admin.html"> Admin</a></li>
         </ul>
     </nav>
 
@@ -93,7 +94,7 @@
     
 
     <!-- ################################# MODAL ################################## -->
-    <button id="feedback-btn">Whass Up?</button>
+    <button id="feedback-btn">Feedback</button>
 
     <div class="feedback">
         
@@ -131,27 +132,27 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="feedbackSubmity"><h3>Submit</h3></button>
+                <button id="feedbackSubmity"><h3>Next</h3></button>
             </div>
         </div>
 
         <div class="modal-content" id="feedback3">
             <div class="modal-header">
                 <span id="closeBtn">&times;</span>
-                <h2>How is the app?</h2>
+                <h2>Where we went wrong?</h2>
             </div>
             <div class="modal-body">
                 
                 <form action="" class="feedbackForm">
-                    <div class="option-back"><input type="checkbox" name="whylove" checked="checked" value=1> Music Quality</div>
-                    <div class="option-back"><input type="checkbox" name="whylove" value=2> Music Variety</div>
-                    <div class="option-back"><input type="checkbox" name="whylove" value=3> User Interface</div>
-                    <div class="option-back"><input type="checkbox" name="whylove" value=4> Accessibility</div>
-                    <div class="option-back"><input type="checkbox" name="whylove" value=5> Speed</div>
+                    <div class="option-back"><input type="checkbox" name="whyhate" checked="checked" value=1> Music Quality</div>
+                    <div class="option-back"><input type="checkbox" name="whyhate" value=2> Music Variety</div>
+                    <div class="option-back"><input type="checkbox" name="whyhate" value=3> User Interface</div>
+                    <div class="option-back"><input type="checkbox" name="whyhate" value=4> Accessibility</div>
+                    <div class="option-back"><input type="checkbox" name="whyhate" value=5> Speed</div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="feedbackSubmitn"><h3>Submit</h3></button>
+                <button id="feedbackSubmitn"><h3>Next</h3></button>
             </div>
         </div>
         <div class="modal-content"id="feedback4">
@@ -161,9 +162,11 @@
             </div>
             <div class="modal-body">
                 
-                <form action="" class="feedbackForm">
+                <form method="post" action="/" class="feedbackForm">
                     <h4>Your Input is Valuable to Us</h4>
-                    <textarea cols="150" rows="10" aria-placeholder="Tell us your Feedback"></textarea>
+                    <div class="option-back">Name <input type="text" name="name"></div>
+                    <div class="option-back">Email <input type="text" name="email"></div>
+                    <textarea name="content" cols="150" rows="10" aria-placeholder="Tell us your Feedback"></textarea>
                 </form>
             </div>
             <div class="modal-footer">

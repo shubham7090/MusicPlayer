@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li class="brand"><img src="logo.png" alt="Spotify"> Music Player</li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="player.html"> Player</a></li>
+            <li><a href="admin.html"> Admin</a></li>
+        </ul>
+    </nav>
+
+    <div class="adminFormContainer">
+        <form>
+            <h1>Login</h1>
+            <div class="form-group">
+                <label for="">Email Id</label>
+                <input type="text" name="email" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="">Password</label>
+                <input type="password" name="password" class="form-control" required>
+            </div>
+            <input type="submit" class="adminBtn" value="Login">
+        </form>
+    </div>
+
+    <div class="cardContainer">
+        <!-- <div class="card">
+            <h4>Name : </h4> <p>Shubham</p><br>
+            <h4>Email : </h4> <p>Shubham</p><br>
+            <h4>Did You liked the player? : </h4> <p>Shubham</p><br>
+            <h4>What Did you Like? : </h4> <p>Shubham</p><br>
+            <h4>Feedback : </h4> <br>
+            <p>Shubham</p>
+            
+        </div> -->
+    </div>
+</body>
+<!-- <script src="script.js"></script> -->
+<script src="admin.js"></script>
+<script src="https://kit.fontawesome.com/26504e4a1f.js" crossorigin="anonymous"></script>
+<!-- <script>
+    console.log("code reached here");
+    // fetch("http://localhost:3000", {
+    //   method: "GET",
+    // }).then(async function(data){
+    //     let result=await data.json();
+    //     console.log(result.data);
+    // }).catch(function(err){
+    //     console.log("Error in request");
+    //     console.log(err);
+    // });
+    
+
+
+</script> -->
+</html>
