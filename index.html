@@ -12,7 +12,8 @@
         <ul>
             <li class="brand"><img src="logo.png" alt="Spotify"> Music Player</li>
             <li><a href="index.html">Home</a></li>
-            <li><a href="player.html"> Player</a></li>
+            <li><a href="#login-form" onclick="displayLoginForm()"> Player</a></li>
+            <li><a href="admin.html">Admin</a></li>
         </ul>
     </nav>
     <section class="showcase">
@@ -21,8 +22,35 @@
             <h2>Never Stop</h2>
             <h3>Litsining to your Heart</h3>
             <p>Music can change the world as it can change You!</p>
-            <a href="player.html">Litsen</a>
+            <a href="#login-form" onclick="displayLoginForm()">Litsen</a>
         </div>
     </section>
+
+    <section class="form-container">
+        <a id="login-form"></a>
+        <div class="form-box">
+            <div class="button-box">
+                <div ></div>
+                <button class="toggle-btn btn-active">Log In</button>
+                <button class="toggle-btn">Register</button>
+            </div>
+            <!-- Login Form -->
+            <form action="" class="register-form" id="login">
+                <input type="text" class="form-field" placeholder="User Id" required>
+                <input type="password" class="form-field" placeholder="Password" required>
+                <button type="submit" class="register-submit" id="loginbtn">Log In</button>
+            </form>
+            <!-- registerion Form -->
+            <form action="" class="register-form" id="register">
+
+                <input type="text" class="form-field" placeholder="Name" required>
+                <input type="text" class="form-field" placeholder="Number" required>
+                <input type="text" class="form-field" placeholder="User Id" required>
+                <input type="password" class="form-field" placeholder="Password" required>
+                <button type="submit" class="register-submit" id="registerbtn">Register</button>
+            </form>
+        </div>
+    </section>  
+    <script src="db.js"></script>
 </body>
 </html>

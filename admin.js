@@ -13,7 +13,7 @@ function displaycards(){
     let cardConatiner=document.querySelector(".cardContainer");
     cardConatiner.style.display="block";
     let data;
-    fetch("http://localhost:3000")
+    fetch("http://localhost:3100/feedback")
     .then(data => {
         return data.json();
     })

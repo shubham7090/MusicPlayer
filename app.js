@@ -1,58 +1,20 @@
-// const http = require('http');
-// const PORT = 3000;
-// const songs= [
-//     {songName: "Warriyo - Mortals [NCS Release]", filePath: "songs/1.mp3", coverPath: "covers/1.jpg"},
-//     {songName: "Cielo - Huma-Huma", filePath: "songs/2.mp3", coverPath: "covers/2.jpg"},
-//     {songName: "DEAF KEV - Invincible [NCS Release]-320k", filePath: "songs/3.mp3", coverPath: "covers/3.jpg"},
-//     {songName: "Different Heaven & EH!DE - My Heart [NCS Release]", filePath: "songs/4.mp3", coverPath: "covers/4.jpg"},
-//     {songName: "Janji-Heroes-Tonight-feat-Johnning-NCS-Release", filePath: "songs/5.mp3", coverPath: "covers/5.jpg"},
-//     {songName: "Rabba - Salam-e-Ishq", filePath: "songs/6.mp3", coverPath: "covers/6.jpg"},
-//     {songName: "Sakhiyaan - Salam-e-Ishq", filePath: "songs/7.mp3", coverPath: "covers/7.jpg"},
-//     {songName: "Bhula Dena - Salam-e-Ishq", filePath: "songs/8.mp3", coverPath: "covers/8.jpg"},
-//     {songName: "Tumhari Kasam - Salam-e-Ishq", filePath: "songs/9.mp3", coverPath: "covers/9.jpg"},
-//     {songName: "Na Jaana - Salam-e-Ishq", filePath: "songs/10.mp3", coverPath: "covers/10.jpg"},
-// ]
-
-// const server = http.createServer();
-
-// server.on('request',(request,response)=>{
-//     if(request.url==="/songs"&&request.method==="GET"){
-//         response.setHeader("Content-Type","application/json");
-//         response.end(JSON.stringify(songs));
-//     }
-//     else{
-//         response.setHeader("Content-Type","text/plain");
-//         response.end("Not hello");
-//     }
-// })
-
-// server.listen(PORT,()=>{
-//     console.log("Server running at " + PORT);
-
-// })//127.0.0.1
-
+//feeedback connect
 const express =require('express');
 const mongoose =require('mongoose');
 const bodyParser=require('body-parser');
-const url='mongodb+srv://shubham7090:shubham7090@cluster0.snwvf.mongodb.net/feedback'
 const app=express();
 const jsonParser = bodyParser.json()
+const bcrypt=require('bcrypt');
+const jwt=require("jsonwebtoken");
+const JWT_SECRET_TOKEN="dsvmdhbavm%^E^RvNVu7^&T&&hvnvd*((HDSDbdmbs";
 var cors = require("cors");
 app.use(express.static('public'));
 app.use(cors());
 var corsOptions = {
     origin: "http://127.0.0.1:5500",
     optionsSuccessStatus: 200,
-  };
-
-// mongoose.connect(url,{useNewUrlParser:true,useUnifiedTopology:true},(err)=>{
-//     if(!err){
-//         console.log("Connectioned to db");
-//     }else {
-//         console.log("error on connection with db");
-//     }
-// });
-
+};
+const url='mongodb+srv://shubham7090:shubham7090@cluster0.snwvf.mongodb.net/feedback'
 const feedbackSchema={
     name:String,
     email:String,
@@ -62,6 +24,22 @@ const feedbackSchema={
 }
 const feed = mongoose.model("Feedback",feedbackSchema);
 
+const userSchema= new mongoose.Schema({
+    name:String,
+    number:String,
+    email:{
+        type:String,
+        unique:true,
+        required:true,
+    },
+    password:{
+        type:String,
+        required:true,
+    },
+    accessCount: Number,
+});
+const userModel = mongoose.model("User",userSchema);
+
 mongoose.connect(url).then(()=>{
     console.log('connection sucessful')
     }).catch((err)=>{
@@ -69,19 +47,17 @@ mongoose.connect(url).then(()=>{
     })
 
 
-app.get('/',async(req,res)=>{
+app.get('/feedback',async(req,res)=>{
     res.set({
         "Allow-access-Allow-Origin":'*'
     });
-    // res.send('hello Server');
-    // res.sendFile(__dirname+"/MusicPlayer/player.html");
     let result=await feed.find();
     console.log(result);
     console.log('Get request');
     res.json(result);
 })
 
-app.post("/", cors(corsOptions),jsonParser,function(req,res){
+app.post("/feedback", cors(corsOptions),jsonParser,function(req,res){
     console.log("COde reached here");
     console.log(req.body);
     let val=req.body;
@@ -91,9 +67,54 @@ app.post("/", cors(corsOptions),jsonParser,function(req,res){
     });
 })
 
+app.post("/register", cors(corsOptions),jsonParser,async function(req,res){
+    console.log("COde reached here");
+    console.log(req.body);
+    if(!req.body['name'] || !req.body['number'] ||!req.body['email'] ||!req.body['password'] ){
+        return res.json({status :'error',error : "All fields are required"});
+    }
 
+    req.body['password']=await bcrypt.hash(req.body['password'],10);
+    let val=req.body;
+    // let user=new userModel(val);
+    // user.save(function(){
+    //     console.log("User db committed");
+    // });
+    try{
+        const response=await userModel.create(val);
+        console.log("Db commited", response);
+        
+    }catch(err){
+        console.log(err.code);
+        if(err.code===11000){
+            console.log("code reached here");
+            return res.json({status :'error',error : "username already registered"});
+        }else {
+            console.log(err);
+            return res.json(err);
+        }
+    }
+    return res.json({status :'ok',data : "New user Registered"});
+})
 
-app.listen(3000,function(){
+app.post("/login", cors(corsOptions),jsonParser,async function(req,res){
+    console.log("COde reached here");
+    console.log(req.body);
+    if(!req.body['email'] ||!req.body['password'] ){
+        res.json({status :'error',error : "All fields are required"});
+    }
+    let result=await userModel.find({email:req.body['email']});
+    if(result.length==0){
+        return res.json({status :'error',error : "username not registered"});
+    }
+    if(await bcrypt.compare(password,req.body['password'])){
+        const token =jwt.sign({id:result[0]._id,email:result[0].email},JWT_SECRET_TOKEN)
+        return  res.json({status :'ok',data:token});
+    }
+   
+})
+
+app.listen(3100,function(){
     console.log('Server started')
 })
 
