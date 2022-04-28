@@ -25,24 +25,26 @@ document.getElementById("registerbtn").addEventListener("click",async function(e
         number:"",
         email:"",
         password:"",
+        accessCount:0,
     };
     document.querySelectorAll("#register input").forEach(function(ele,i){
         user[Object.keys(user)[i]]=ele.value;
     });
-    const result=await fetch("http://localhost:3100/register", {
+    const result=await(await fetch("http://localhost:3100/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         'Accept': 'application/json',
       },
       body: JSON.stringify(user),
-    }).then(function(){
-        console.log("request sent");
-    }).catch(function(err){
-        console.log("Error in request");
-        console.log(err);
-    });
+    })).json();
     console.log(result);
+    if(result.status=="error"){
+        alert(result.error);
+    }else{
+        alert(result.data);
+    }
+
 })
 
 
@@ -56,18 +58,47 @@ document.getElementById("loginbtn").addEventListener("click",async function(e){
     document.querySelectorAll("#login input").forEach(function(ele,i){
         user[Object.keys(user)[i]]=ele.value;
     });
-    const result=await fetch("http://localhost:3100/login", {
+    const result=await(await fetch("http://localhost:3100/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         'Accept': 'application/json',
       },
       body: JSON.stringify(user),
-    }).then(function(){
-        console.log("request sent");
-    }).catch(function(err){
-        console.log("Error in request");
-        console.log(err);
-    });
+    })).json();
     console.log(result);
+    if(result.status=="error"){
+        alert(result.error);
+    }else if(result.status=="admin"){
+        alert(result.data);
+        window.location.assign("admin.html");
+    }
+    else{
+        window.location.assign("player.html");
+        console.log(result.data);
+        document.cookie=`login=${result.data}`;
+    }
 })
+
+// document.querySelector("#login input[type=password]").addEventListener("focus",async function(){
+//     console.log("Event Fired");
+//     let user=document.querySelector("#login input[type=text]").value;
+//     if(user!==""){
+//         const result=await(await fetch("http://localhost:3100/rememberLogin", {
+//             method: "POST",
+//             headers: {
+//                 "Content-Type": "application/json",
+//                 'Accept': 'application/json',
+//             },
+//         body: JSON.stringify({
+//                 'username':user,
+//                 'token':document.cookie,
+//             }),
+//         })).json();
+//         console.log(result);
+//         if(result.status=="ok"){
+//             alert(result.data);
+//             window.location.assign("player.html");
+//         }
+//     }
+// })

@@ -119,9 +119,12 @@ let timeoutVal=2;//minutes
 let userFeedback={
     name:"",
     email:"",
+    access:0,
     like:"",
     val:"",
-    content:""
+    content:"",
+    token:"",
+    
 };
 window.onload=setTimeout(openFeedback,timeoutVal*60*1000);
 let modal=document.querySelector('.feedback');
@@ -239,9 +242,10 @@ feedbackSubmitm.addEventListener("click",function(){
 
     closeFeedBack();
     console.log(document.getElementsByName("name"));
-    userFeedback.name=document.getElementsByName("name")[0].value;
-    userFeedback.email=document.getElementsByName("email")[0].value;
+    // userFeedback.name=document.getElementsByName("name")[0].value;
+    // userFeedback.email=document.getElementsByName("email")[0].value;
     userFeedback.content=document.getElementsByName("content")[0].value;
+    userFeedback.token=document.cookie;
     console.log(userFeedback);
     fetch("http://localhost:3100/feedback", {
       method: "POST",
